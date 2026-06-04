@@ -1,0 +1,27 @@
+name: Angular CI
+
+on:
+  push:
+    branches: [ main, develop, feature/* ]
+  pull_request:
+    branches: [ main develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout du dépôt
+      uses: actions/checkout@v4
+
+    - name: Configuration de Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20' # Version stable recommandée pour les builds récents
+        cache: 'npm'
+
+    - name: Installation des dépendances
+      run: npm ci
+
+    - name: Vérification de la compilation Angular
+      run: npm run build -- --configuration=production
