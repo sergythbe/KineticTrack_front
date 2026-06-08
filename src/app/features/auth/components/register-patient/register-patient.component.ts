@@ -10,7 +10,7 @@ import { AuthService } from '../../../../core/services/auth.service';
   templateUrl: './register-patient.component.html',
   styleUrl: './register-patient.component.css'
 })
-export class RegisterPatientComponent implements OnInit {
+export default class RegisterPatientComponent implements OnInit {
   private fb = inject(NonNullableFormBuilder);
   protected authService = inject(AuthService);
 
@@ -22,7 +22,7 @@ export class RegisterPatientComponent implements OnInit {
     gender: ['', [Validators.required]],
     medicalHistory: ['']
   });
-  
+
     ngOnInit(): void {
     this.authService.resetState();
   }
