@@ -4,7 +4,7 @@ import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,Toast],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

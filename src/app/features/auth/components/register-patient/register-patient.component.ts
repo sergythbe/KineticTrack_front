@@ -5,7 +5,6 @@ import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-register-patient',
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './register-patient.component.html',
   styleUrl: './register-patient.component.css'
