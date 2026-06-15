@@ -6,6 +6,8 @@ import { LoginDto } from '../models/login-dto';
 import { LoginResponse } from '../models/login-response';
 import { ChangePasswordDto } from '../models/change-password-dto';
 import { catchError, EMPTY, Observable, tap } from 'rxjs';
+import { RegisterPatientResponse } from '../models/register-patient-reponse';
+
 
 export interface AuthState {
   isLoading: boolean;
@@ -37,12 +39,14 @@ export class AuthService {
   requiresPasswordChange = computed(() => this.currentUser()?.requiresPasswordChange ?? false);
   user = computed(() => this.currentUser());
 
-  register(dto: RegisterPatientDto): Observable<void> {
+  register(dto: RegisterPatientDto): Observable<RegisterPatientResponse> {
     this.state.set({ isLoading: true, error: null, isSuccess: false });
 
-    return this.http.post<void>(`${this.apiUrl}/register`, dto).pipe(
+    return this.http.post<RegisterPatientResponse>(`${this.apiUrl}/register`, dto).pipe(
       tap(() => this.state.set({ isLoading: false, error: null, isSuccess: true })),
       catchError((err) => {
+        console.log('erreur complète :', err);
+        console.log('err.error :', err.error);
         const msg = err.error?.message || "Erreur lors de l'inscription.";
         this.state.set({ isLoading: false, error: msg, isSuccess: false });
         return EMPTY;

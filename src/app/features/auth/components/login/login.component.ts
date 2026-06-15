@@ -1,4 +1,3 @@
-// src/app/features/auth/login/login.component.ts
 import { Component, effect, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -39,6 +38,7 @@ export default class LoginComponent implements OnInit {
       this.loginForm.markAllAsTouched();
       return;
     }
+    console.log(this.loginForm.getRawValue())
 
     this.authService.login(this.loginForm.getRawValue()).subscribe();
   }
