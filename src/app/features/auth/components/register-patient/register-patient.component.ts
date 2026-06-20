@@ -1,16 +1,20 @@
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../core/services/auth.service';
+import { MessageService } from 'primeng/api';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-register-patient',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, Toast],
+  providers: [MessageService],
   templateUrl: './register-patient.component.html',
-  styleUrl: './register-patient.component.css',
+  styleUrl: './register-patient.component.css'
 })
 export default class RegisterPatientComponent implements OnInit {
   private fb = inject(NonNullableFormBuilder);
+  private messageService = inject(MessageService);
   protected authService = inject(AuthService);
 
   protected registerForm = this.fb.group({
@@ -19,13 +23,27 @@ export default class RegisterPatientComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     birthdate: ['', [Validators.required]],
     gender: ['', [Validators.required]],
-    medicalHistory: [''],
+    medicalHistory: ['']
   });
+
+  constructor() {
+    effect(() => {
+      const err = this.authService.error();
+      if (err) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Échec de l\'enregistrement',
+          detail: err,
+          life: 5000,
+        });
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.authService.resetState();
   }
-  // me permet de raccourcir la validation des champs dans le html
+
   get f() {
     return this.registerForm.controls;
   }
@@ -35,13 +53,16 @@ export default class RegisterPatientComponent implements OnInit {
       this.registerForm.markAllAsTouched();
       return;
     }
-    const payload = this.registerForm.getRawValue();
-
-    this.authService.register(payload).subscribe({
-      next: () => {
-        //  On réinitialise le formulaire si l'enregistrement réussit
-        this.registerForm.reset();
-      },
-    });
+  this.authService.register(this.registerForm.getRawValue()).subscribe({
+    next: (response) => {
+      this.registerForm.reset();
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Patient enregistré',
+        detail: `Mot de passe temporaire : ${response.temporaryPassword}`,
+        sticky: true,
+      });
+    },
+  });
   }
 }
