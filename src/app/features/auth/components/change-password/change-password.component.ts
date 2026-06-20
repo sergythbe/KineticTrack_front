@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
+import { passwordsMatchValidator } from '../../../../core/validators/passwords-match.validator';
 
 @Component({
   selector: 'app-change-password',
@@ -19,7 +20,8 @@ export default class ChangePasswordComponent implements OnInit {
     currentPassword: ['', [Validators.required]],
     newPassword: ['', [Validators.required, Validators.minLength(8)]],
     confirmNewPassword: ['', [Validators.required]]
-  });
+  },
+{ validators: passwordsMatchValidator });
 
   private redirectEffect = effect(() => {
     if (this.authService.isSuccess()) {
