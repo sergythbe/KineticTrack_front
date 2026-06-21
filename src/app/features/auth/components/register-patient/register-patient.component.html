@@ -20,7 +20,7 @@
             <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Prénom</label>
             <input type="text" formControlName="firstname"
                    class="block w-full rounded-lg border-gray-200 bg-gray-50/50 p-2.5 text-sm text-gray-900 transition focus:border-[#0F6E56] focus:ring-1 focus:ring-[#0F6E56] focus:bg-white border outline-none"
-                   placeholder="Ex: Alice">
+                   placeholder="Serge">
             @if (f.firstname.touched && f.firstname.invalid) {
               <p class="mt-1 text-xs text-red-600 flex items-center gap-1">
                 <i class="ti ti-alert-triangle"></i> Le prénom est requis.
@@ -32,7 +32,7 @@
             <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Nom</label>
             <input type="text" formControlName="lastname"
                    class="block w-full rounded-lg border-gray-200 bg-gray-50/50 p-2.5 text-sm text-gray-900 transition focus:border-[#0F6E56] focus:ring-1 focus:ring-[#0F6E56] focus:bg-white border outline-none"
-                   placeholder="Ex: Lambert">
+                   placeholder="Thierry">
             @if (f.lastname.touched && f.lastname.invalid) {
               <p class="mt-1 text-xs text-red-600 flex items-center gap-1">
                 <i class="ti ti-alert-triangle"></i> Le nom est requis.
@@ -45,7 +45,7 @@
           <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Adresse email</label>
           <input type="email" formControlName="email"
                  class="block w-full rounded-lg border-gray-200 bg-gray-50/50 p-2.5 text-sm text-gray-900 transition focus:border-[#0F6E56] focus:ring-1 focus:ring-[#0F6E56] focus:bg-white border outline-none"
-                 placeholder="a.lambert@mail.com">
+                 placeholder="serge@test.be">
           @if (f.email.touched && f.email.invalid) {
             <p class="mt-1 text-xs text-red-600 flex items-center gap-1">
               <i class="ti ti-alert-triangle"></i> Veuillez entrer une adresse email valide.
@@ -86,7 +86,7 @@
           <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Antécédents médicaux</label>
           <textarea formControlName="medicalHistory" rows="4"
                     class="block w-full rounded-lg border-gray-200 bg-gray-50/50 p-2.5 text-sm text-gray-900 transition focus:border-[#0F6E56] focus:ring-1 focus:ring-[#0F6E56] focus:bg-white border outline-none resize-none"
-                    placeholder="Rupture LCA, pathologies chroniques, allergies..."></textarea>
+                    placeholder="Rupture LCA, diabète de type 2, allergies au nickel..."></textarea>
         </div>
 
         <div class="pt-2">
