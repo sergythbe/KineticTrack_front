@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth-guard';
 import { passwordChangeGuard } from './core/guards/password-change-guard';
+import { roleGuard } from './core/guards/role-guard';
 
 export const routes: Routes = [
   {
@@ -22,13 +23,22 @@ export const routes: Routes = [
 
   {
    path: 'dashboard',
-        canActivate: [authGuard, passwordChangeGuard],
+        canActivate: [authGuard, passwordChangeGuard, roleGuard(['Practitioner', 'Admin', 'Secretary'])],
         loadComponent: () => import('./shared/layout/practitioner-shell/practitioner-shell.component'),
         children: [
             { path: '', loadComponent: () => import('./features/dashboard/components/dashboard/dashboard.component') },
             { path: 'register-patient', loadComponent: () => import('./features/auth/components/register-patient/register-patient.component') },
         ]
   },
+
+  {
+        path: 'portal',
+        canActivate: [authGuard, passwordChangeGuard, roleGuard(['Patient'])],
+        loadComponent: () => import('./shared/layout/patient-shell/patient-shell.component'),
+        children: [
+            { path: '', loadComponent: () => import('./features/patient-portal/components/my-episodes/my-episodes.component') },
+        ]
+    },
 
   {
     path: '**',

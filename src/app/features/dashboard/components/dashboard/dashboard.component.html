@@ -1,4 +1,10 @@
 <div class="space-y-6">
+    <div>
+    <h1 class="text-xl font-semibold text-gray-900">
+      Bonjour, {{ authService.user()?.firstname }}
+    </h1>
+    <p class="text-sm text-gray-500 mt-0.5">Voici un aperçu de votre activité du jour.</p>
+  </div>
   <div class="flex justify-end">
     <a
       routerLink="/dashboard/register-patient"

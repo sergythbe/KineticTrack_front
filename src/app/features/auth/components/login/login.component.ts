@@ -20,15 +20,17 @@ export default class LoginComponent implements OnInit {
     password: ['', [Validators.required]]
   });
 
-  private redirectEffect = effect(() => {
-    if (this.authService.isSuccess()) {
-      if (this.authService.requiresPasswordChange()) {
-        this.router.navigate(['/auth/change-password']);
-      } else {
-        this.router.navigate(['/dashboard']);
-      }
+private redirectEffect = effect(() => {
+  if (this.authService.isSuccess()) {
+    if (this.authService.requiresPasswordChange()) {
+      this.router.navigate(['/auth/change-password']);
+    } else if (this.authService.user()?.role === 'Patient') {
+      this.router.navigate(['/portal']);
+    } else {
+      this.router.navigate(['/dashboard']);
     }
-  });
+  }
+});
   ngOnInit(): void {
     this.authService.resetState();
   }
@@ -38,8 +40,7 @@ export default class LoginComponent implements OnInit {
       this.loginForm.markAllAsTouched();
       return;
     }
-    console.log(this.loginForm.getRawValue())
-
+   
     this.authService.login(this.loginForm.getRawValue()).subscribe();
   }
 }

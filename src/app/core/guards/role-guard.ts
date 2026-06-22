@@ -1,6 +1,6 @@
-import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { inject } from "@angular/core";
+import { CanActivateFn, Router } from "@angular/router";
+import { AuthService } from "../services/auth.service";
 
 export function roleGuard(allowedRoles: string[]): CanActivateFn {
   return () => {
@@ -13,7 +13,13 @@ export function roleGuard(allowedRoles: string[]): CanActivateFn {
       return true;
     }
 
-    router.navigate(['/dashboard']);
+    // Redirige selon le rôle réel de l'utilisateur
+    if (userRole === 'Patient') {
+      router.navigate(['/portal']);
+    } else {
+      router.navigate(['/dashboard']);
+    }
+
     return false;
   };
 }
