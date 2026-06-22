@@ -1,3 +1,5 @@
+import { UserRole } from "./user-role";
+
 export interface LoginResponse {
   token: string;
   requiresPasswordChange: boolean;
@@ -5,4 +7,5 @@ export interface LoginResponse {
   email: string;
   firstname: string;
   lastname: string;
+  role: UserRole;
 }
