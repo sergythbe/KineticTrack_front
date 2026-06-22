@@ -4,10 +4,11 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../../../../core/services/auth.service';
 import { MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register-patient',
-  imports: [CommonModule, ReactiveFormsModule, Toast],
+  imports: [CommonModule, ReactiveFormsModule, Toast, RouterLink],
   providers: [MessageService],
   templateUrl: './register-patient.component.html',
   styleUrl: './register-patient.component.css'
