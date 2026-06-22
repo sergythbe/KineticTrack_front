@@ -26,6 +26,8 @@ private redirectEffect = effect(() => {
       this.router.navigate(['/auth/change-password']);
     } else if (this.authService.user()?.role === 'Patient') {
       this.router.navigate(['/portal']);
+    } else if (this.authService.user()?.role === 'Secretary') {
+      this.router.navigate(['/dashboard/secretary']);
     } else {
       this.router.navigate(['/dashboard']);
     }

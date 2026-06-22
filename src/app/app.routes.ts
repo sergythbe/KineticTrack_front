@@ -21,24 +21,33 @@ export const routes: Routes = [
       import('./features/auth/components/change-password/change-password.component'),
   },
 
-  {
-   path: 'dashboard',
-        canActivate: [authGuard, passwordChangeGuard, roleGuard(['Practitioner', 'Admin', 'Secretary'])],
-        loadComponent: () => import('./shared/layout/practitioner-shell/practitioner-shell.component'),
-        children: [
-            { path: '', loadComponent: () => import('./features/dashboard/components/dashboard/dashboard.component') },
-            { path: 'register-patient', loadComponent: () => import('./features/auth/components/register-patient/register-patient.component') },
-        ]
-  },
+{
+    path: 'dashboard',
+    canActivate: [authGuard, passwordChangeGuard, roleGuard(['Practitioner', 'Admin', 'Secretary'])],
+    loadComponent: () => import('./shared/layout/practitioner-shell/practitioner-shell.component'),
+    children: [
+        { 
+            path: '', 
+            canActivate: [roleGuard(['Practitioner', 'Admin'])],
+            loadComponent: () => import('./features/dashboard/components/dashboard/dashboard.component') 
+        },
+        { 
+            path: 'secretary',
+            canActivate: [roleGuard(['Secretary'])],
+            loadComponent: () => import('./features/secretary/components/secretary-home/secretary-home.component') 
+        },
+        { path: 'register-patient', loadComponent: () => import('./features/auth/components/register-patient/register-patient.component') },
+    ]
+},
 
   {
-        path: 'portal',
-        canActivate: [authGuard, passwordChangeGuard, roleGuard(['Patient'])],
-        loadComponent: () => import('./shared/layout/patient-shell/patient-shell.component'),
-        children: [
-            { path: '', loadComponent: () => import('./features/patient-portal/components/my-episodes/my-episodes.component') },
-        ]
-    },
+    path: 'portal',
+    canActivate: [authGuard, passwordChangeGuard, roleGuard(['Patient'])],
+    loadComponent: () => import('./shared/layout/patient-shell/patient-shell.component'),
+    children: [
+      { path: '', loadComponent: () => import('./features/patient-portal/components/my-episodes/my-episodes.component') },
+    ]
+  },
 
   {
     path: '**',
