@@ -1,0 +1,76 @@
+<div class="flex h-screen overflow-hidden">
+
+  <!-- Sidebar -->
+  <aside class="w-[200px] min-w-[200px] bg-[#0F6E56] flex flex-col">
+    <div class="px-4 pt-5 pb-4 border-b border-white/15">
+      <span class="text-white text-[15px] font-medium">KineticTrack</span>
+      <small class="block text-white/60 text-[11px] mt-0.5">
+        {{ authService.user()?.firstname }} {{ authService.user()?.lastname }}
+      </small>
+    </div>
+
+    <nav class="py-3">
+      <div class="text-[10px] text-white/45 uppercase tracking-wider px-4 mb-1.5">Navigation</div>
+
+      <!-- Nav Practitioner / Admin -->
+      @if (authService.user()?.role === 'Practitioner' || authService.user()?.role === 'Admin') {
+        <a routerLink="/dashboard" routerLinkActive="bg-white/10 border-l-2 border-l-[#9FE1CB] text-white"
+           [routerLinkActiveOptions]="{exact: true}"
+           class="flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-white/75 hover:text-white hover:bg-white/5 border-l-2 border-l-transparent transition">
+          <i class="ti ti-layout-dashboard text-base"></i> Tableau de bord
+        </a>
+
+        <a routerLink="/dashboard/patients" routerLinkActive="bg-white/10 border-l-2 border-l-[#9FE1CB] text-white"
+           class="flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-white/75 hover:text-white hover:bg-white/5 border-l-2 border-l-transparent transition">
+          <i class="ti ti-users text-base"></i> Patients
+        </a>
+
+        <a routerLink="/dashboard/protocols" routerLinkActive="bg-white/10 border-l-2 border-l-[#9FE1CB] text-white"
+           class="flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-white/75 hover:text-white hover:bg-white/5 border-l-2 border-l-transparent transition">
+          <i class="ti ti-tools text-base"></i> Protocoles
+        </a>
+
+        <a routerLink="/dashboard/cabinet" routerLinkActive="bg-white/10 border-l-2 border-l-[#9FE1CB] text-white"
+           class="flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-white/75 hover:text-white hover:bg-white/5 border-l-2 border-l-transparent transition">
+          <i class="ti ti-building text-base"></i> Cabinet
+        </a>
+      }
+
+      <!-- Nav Secretary -->
+      @if (authService.user()?.role === 'Secretary') {
+        <a routerLink="/dashboard/register-patient" routerLinkActive="bg-white/10 border-l-2 border-l-[#9FE1CB] text-white"
+           class="flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-white/75 hover:text-white hover:bg-white/5 border-l-2 border-l-transparent transition">
+          <i class="ti ti-user-plus text-base"></i> Inscrire un patient
+        </a>
+
+        <a routerLink="/dashboard/agenda" routerLinkActive="bg-white/10 border-l-2 border-l-[#9FE1CB] text-white"
+           class="flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-white/75 hover:text-white hover:bg-white/5 border-l-2 border-l-transparent transition">
+          <i class="ti ti-calendar text-base"></i> Agenda
+        </a>
+
+        <a routerLink="/dashboard/reset-password" routerLinkActive="bg-white/10 border-l-2 border-l-[#9FE1CB] text-white"
+           class="flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-white/75 hover:text-white hover:bg-white/5 border-l-2 border-l-transparent transition">
+          <i class="ti ti-key text-base"></i> Réinitialiser mot de passe
+        </a>
+      }
+    </nav>
+
+    <div class="mt-auto py-3 border-t border-white/15">
+      <a (click)="logout()" class="flex items-center gap-2.5 px-4 py-2.5 text-[13px] text-white/75 hover:text-white hover:bg-white/5 cursor-pointer">
+        <i class="ti ti-logout text-base"></i> Déconnexion
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="flex-1 flex flex-col overflow-hidden bg-gray-50">
+    <header class="bg-white border-b border-gray-100 px-5 h-[52px] flex items-center justify-between">
+      <span class="text-[15px] font-medium text-gray-900">Tableau de bord</span>
+    </header>
+
+    <main class="flex-1 overflow-auto p-5">
+      <router-outlet />
+    </main>
+  </div>
+
+</div>

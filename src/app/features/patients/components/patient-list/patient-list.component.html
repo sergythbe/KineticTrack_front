@@ -1,0 +1,59 @@
+<div class="space-y-6">
+
+  <div>
+    <h1 class="text-xl font-semibold text-gray-900">Patients du jour</h1>
+    <p class="text-sm text-gray-500 mt-0.5">Rendez-vous planifiés pour aujourd'hui.</p>
+  </div>
+
+  @if (appointmentService.isLoading()) {
+    <div class="p-5 text-sm text-gray-400">Chargement...</div>
+  } @else if (appointmentService.todayAppointments().length === 0) {
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-8 text-center">
+      <i class="ti ti-calendar-off text-3xl text-gray-300"></i>
+      <p class="text-sm text-gray-400 mt-2">Aucun rendez-vous prévu aujourd'hui.</p>
+    </div>
+  } @else {
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="text-left text-xs text-gray-400 uppercase tracking-wider border-b border-gray-100">
+            <th class="px-5 py-2.5 font-medium">Heure</th>
+            <th class="px-5 py-2.5 font-medium">Patient</th>
+            <th class="px-5 py-2.5 font-medium">Motif</th>
+            <th class="px-5 py-2.5 font-medium">Épisode actif</th>
+            <th class="px-5 py-2.5 font-medium">Statut</th>
+            <th class="px-5 py-2.5 font-medium"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (appt of appointmentService.todayAppointments(); track appt.appointmentId) {
+            <tr class="border-b border-gray-50 last:border-0 hover:bg-gray-50/50">
+              <td class="px-5 py-3 text-gray-500 font-medium">
+                {{ appt.scheduledAt | date: 'HH:mm' }}
+              </td>
+              <td class="px-5 py-3 text-gray-900 font-medium">
+                {{ appt.patientFirstname }} {{ appt.patientLastname }}
+              </td>
+              <td class="px-5 py-3 text-gray-600">{{ appt.reason }}</td>
+              <td class="px-5 py-3 text-gray-500">
+                {{ appt.careEpisodeTitle ?? '—' }}
+              </td>
+              <td class="px-5 py-3">
+                <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-[#E1F5EE] text-[#0F6E56]">
+                  {{ appt.status }}
+                </span>
+              </td>
+              <td class="px-5 py-3">
+                <a [routerLink]="['/dashboard/patients', appt.patientId]"
+                   class="text-xs font-medium text-[#0F6E56] hover:underline">
+                  Voir dossier →
+                </a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+</div>

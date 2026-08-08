@@ -1,0 +1,88 @@
+<div class="space-y-6">
+    <div>
+    <h1 class="text-xl font-semibold text-gray-900">
+      Bonjour, {{ authService.user()?.firstname }}
+    </h1>
+    <p class="text-sm text-gray-500 mt-0.5">Voici un aperçu de votre activité du jour.</p>
+  </div>
+  <div class="flex justify-end">
+    <a
+      routerLink="/dashboard/register-patient"
+      class="inline-flex items-center gap-2 px-4 py-2.5 bg-[#0F6E56] hover:bg-[#0b5240] text-white text-sm font-semibold rounded-lg shadow-sm transition"
+    >
+      <i class="ti ti-user-plus text-lg"></i>
+      <span>Enregistrer un patient</span>
+    </a>
+  </div>
+
+  <!-- KPIs -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex items-center gap-4">
+      <div class="w-11 h-11 rounded-lg bg-[#E1F5EE] flex items-center justify-center">
+        <i class="ti ti-users text-xl text-[#0F6E56]"></i>
+      </div>
+      <div>
+        <p class="text-2xl font-semibold text-gray-900">
+          {{ dashboardService.summary()?.activePatientsCount ?? '–' }}
+        </p>
+        <p class="text-xs text-gray-500 uppercase tracking-wider">Patients actifs</p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex items-center gap-4">
+      <div class="w-11 h-11 rounded-lg bg-[#E1F5EE] flex items-center justify-center">
+        <i class="ti ti-activity text-xl text-[#0F6E56]"></i>
+      </div>
+      <div>
+        <p class="text-2xl font-semibold text-gray-900">
+          {{ dashboardService.summary()?.activeEpisodesCount ?? '–' }}
+        </p>
+        <p class="text-xs text-gray-500 uppercase tracking-wider">Épisodes en cours</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Liste des épisodes actifs -->
+  <div class="bg-white rounded-xl border border-gray-100 shadow-sm">
+    <div class="px-5 py-4 border-b border-gray-100">
+      <h3 class="text-sm font-semibold text-gray-900">Épisodes de soins actifs</h3>
+    </div>
+
+    @if (dashboardService.isLoading()) {
+      <div class="p-5 text-sm text-gray-400">Chargement...</div>
+    } @else if (dashboardService.activeEpisodes().length === 0) {
+      <div class="p-5 text-sm text-gray-400">Aucun épisode de soins en cours.</div>
+    } @else {
+      <table class="w-full text-sm">
+        <thead>
+          <tr
+            class="text-left text-xs text-gray-400 uppercase tracking-wider border-b border-gray-100"
+          >
+            <th class="px-5 py-2.5 font-medium">Patient</th>
+            <th class="px-5 py-2.5 font-medium">Titre</th>
+            <th class="px-5 py-2.5 font-medium">Statut</th>
+            <th class="px-5 py-2.5 font-medium">Créé le</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (episode of dashboardService.activeEpisodes(); track episode.careEpisodeId) {
+            <tr class="border-b border-gray-50 last:border-0 hover:bg-gray-50/50">
+              <td class="px-5 py-3 text-gray-900 font-medium">
+                {{ episode.patientFirstname }} {{ episode.patientLastname }}
+              </td>
+              <td class="px-5 py-3 text-gray-600">{{ episode.title }}</td>
+              <td class="px-5 py-3">
+                <span
+                  class="text-xs font-medium px-2 py-0.5 rounded-full bg-[#E1F5EE] text-[#0F6E56]"
+                >
+                  {{ episode.status }}
+                </span>
+              </td>
+              <td class="px-5 py-3 text-gray-500">{{ episode.createdAt | date: 'dd/MM/yyyy' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</div>
